@@ -59,25 +59,25 @@ The script executes these steps:
 
 #### Open 4 cli shells:
 
-- Move to ```https-client``` folder and run the following command
+- In the first shell move to ```https-client``` folder and run the following command
 ```bash
 cd ./http3-client
 python http3-client.py --ca-certs "certs/ca.pem" --cipher-suites "AES_128_GCM_SHA256" -l "keys" -q "quic-log" -v -i -k -d HTTP3 https://127.0.0.1:4433/function/figlet
 ```
 
-- Move to ```middlebox``` folder and run the following command
+- In the second shell move to ```middlebox``` folder and run the following command
 ```bash
 cd ./middlebox
 python middlebox.py
 ```
 
-- Move to ```middlebox``` folder and run the following command
+- In the third shell move to ```middlebox``` folder and run the following command
 ```bash
 cd ./middlebox
 python capture.py
 ```
 
-- Move to ```https-server``` folder and run the following command
+- In the fourth shell move to ```https-server``` folder and run the following command
 ```bash
 cd ./http3-server
 python3 http3-server.py -v -c certs/cert.pem -k certs/priv.key -q quic-log -l keys
@@ -86,36 +86,36 @@ python3 http3-server.py -v -c certs/cert.pem -k certs/priv.key -q quic-log -l ke
 
 # Execute Tests
 
-#### Live Test:
+#### Live Test (4 shells):
 
-- Move to ```https-client``` folder and run the following command
+- In the first shell move to ```https-client``` folder and run the following command
 ```bash
 cd ./http3-client
 python http3-client.py --ca-certs "certs/ca.pem" --cipher-suites "AES_128_GCM_SHA256" -l "keys" -q "quic-log" -t -r 1 -v -i -k -d HTTP3 https://127.0.0.1:4433/function/figlet
 ```
 
-- Move to ```middlebox``` folder and run the following command
+- In the second shell move to ```middlebox``` folder and run the following command
 ```bash
 cd ./middlebox
 python middlebox.py -t -r 1
 ```
 
-- Move to ```middlebox``` folder and run the following command
+- In the third shell move to ```middlebox``` folder and run the following command
 ```bash
 cd ./middlebox
 python capture.py
 ```
 
-- Move to ```https-server``` folder and run the following command
+- In the fourth shell move to ```https-server``` folder and run the following command
 ```bash
 cd ./http3-server
 python3 http3-server.py -v -c certs/cert.pem -k certs/priv.key -q quic-log -l keys
 ```
 
 
-#### Signle Function Tests:
+#### Single Function Tests:
 
-- Move to ```middlebox``` folder and run the following command
+- Open a shell and move to ```middlebox``` folder and run the following command
 ```bash
 cd ./middlebox
 python trackers.py

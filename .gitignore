@@ -1,23 +1,23 @@
-http3-server/certs
-http3-server/keys
-http3-server/quic-log
-http3-server/__pycache__/
+/http3-server/certs
+/http3-server/keys
+/http3-server/quic-log
+/http3-server/__pycache__/
 
-http3-client/test_AES_GCM_Decrypt.py
-http3-client/certs
-http3-client/quic-log
-http3-client/keys
-http3-client/__pycache__/
-http3-client/files
+/http3-client/test_AES_GCM_Decrypt.py
+/http3-client/certs
+/http3-client/quic-log
+/http3-client/keys
+/http3-client/__pycache__/
+/http3-client/files
 
-middlebox/middlebox_http3.py
-middlebox/capture_copy.py
-middlebox/demo.py
-middlebox/htdocs
-middlebox/files
-middlebox/quic-log
-middlebox/certs
-middlebox/__pycache__
+/middlebox/middlebox_http3.py
+/middlebox/capture_copy.py
+/middlebox/demo.py
+/middlebox/htdocs
+/middlebox/files
+/middlebox/quic-log
+/middlebox/certs
+/middlebox/__pycache__
 
-libsnark/build
-Tests
+/libsnark/build
+/Tests

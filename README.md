@@ -144,3 +144,4 @@ python trackers.py
 ```bash
 cd ../xjsnark_decompiled/ && javac -d xjsnark_bin/ -cp backend_bin_mod:xjsnark_bin/ xjsnark_src/xjsnark/*/*.java
 ```
+Remember to generate again the key pair by deleteing the ```provKey.bin``` file from the ```/middlebox/files``` folder.

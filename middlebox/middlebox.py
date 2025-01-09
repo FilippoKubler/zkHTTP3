@@ -45,14 +45,14 @@ def upload_file():
     if args.test:
         out2 = out2 + [["Proof received", time.time()-start_time]]
 
-    # jrun = ((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.HTTP3_String pub ../middlebox/files/params.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff {client_random} 1').split())        # LOCALHOST
-    # jrun = ((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.HTTP3_String pub ../middlebox/files/params.txt 0000d4d7508d0be25c2e3cb840b8ae34d32cff518c625b6a224c7a9894d35054ff {client_random} 1').split())    # TESTBED
+    jrun = ((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.HTTP3_String pub ../middlebox/files/params.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff {client_random} 1').split())        # LOCALHOST
+    jrun = ((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.HTTP3_String pub ../middlebox/files/params.txt 0000d4d7508d0be25c2e3cb840b8ae34d32cff518c625b6a224c7a9894d35054ff {client_random} 1').split())    # TESTBED
     
     # FULL
     # jrun = ((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_full pub ../middlebox/files/params.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff {client_random} 1 300 100').split())        # LOCALHOST
     
     # POL
-    jrun = ((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_POL pub ../middlebox/files/params.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff {client_random} 1 100').split())        # LOCALHOST
+    # jrun = ((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_POL pub ../middlebox/files/params.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff {client_random} 1 100').split())        # LOCALHOST
                                                                                                                                                                      
     if args.test:
         try:
@@ -87,13 +87,13 @@ def upload_file():
             print("Wrong java parameters! " + client_random + " 1")
         
         try:
-            # subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/HTTP3_String.arith files/HTTP3_String_{client_random}1.pub.in verify {filename}').split()).check_returncode()
+            subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/HTTP3_String.arith files/HTTP3_String_{client_random}1.pub.in verify {filename}').split()).check_returncode()
 
             # FULL
             # subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/Test_HTTP3_String_full.arith files/Test_HTTP3_String_full_{client_random}1.pub.in verify {filename}').split()).check_returncode()
 
             # POL
-            subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/Test_HTTP3_String_POL.arith files/Test_HTTP3_String_POL_{client_random}1.pub.in verify {filename}').split()).check_returncode()
+            # subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/Test_HTTP3_String_POL.arith files/Test_HTTP3_String_POL_{client_random}1.pub.in verify {filename}').split()).check_returncode()
         
         except subprocess.CalledProcessError:
             print("Wrong libsnark parameters! " + client_random + " 1")
@@ -124,16 +124,16 @@ if __name__ == '__main__':
 
     if not os.path.isfile('files/provKey.bin') or args.test:
 
-        # jrun = (('java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.HTTP3_String pub ../middlebox/files/setup.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff circuitgen 1').split())
-        # lrun = (('../libsnark/build/libsnark/jsnark_interface/run_zkmb ../middlebox/files/HTTP3_String.arith setup').split())
+        jrun = (('java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.HTTP3_String pub ../middlebox/files/setup.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff circuitgen 1').split())
+        lrun = (('../libsnark/build/libsnark/jsnark_interface/run_zkmb ../middlebox/files/HTTP3_String.arith setup').split())
 
         # FULL
         # jrun = (('java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_full pub ../middlebox/files/setup.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff circuitgen 1 300 100').split())
         # lrun = (('../libsnark/build/libsnark/jsnark_interface/run_zkmb ../middlebox/files/Test_HTTP3_String_full.arith setup').split())
 
         # POL
-        jrun = (('java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_POL pub ../middlebox/files/setup.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff circuitgen 1 100').split())
-        lrun = (('../libsnark/build/libsnark/jsnark_interface/run_zkmb ../middlebox/files/Test_HTTP3_String_POL.arith setup').split())
+        # jrun = (('java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_POL pub ../middlebox/files/setup.txt 0000d4d7508a089d5c0b8170dc69a659518c625b6a224c7a9894d35054ff circuitgen 1 100').split())
+        # lrun = (('../libsnark/build/libsnark/jsnark_interface/run_zkmb ../middlebox/files/Test_HTTP3_String_POL.arith setup').split())
 
         if args.test:
             jname = "xjsnark_setup_HTTP3_String.json"

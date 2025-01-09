@@ -641,16 +641,16 @@ async def main(
 
             print("\n\n[+] Generating the Proof ...\n\n")
 
-            # subprocess.run((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.HTTP3_String run ./files/params.txt {client._allowed_url} {client._client_random} 1').split())
-            # subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/HTTP3_String.arith files/HTTP3_String_{client._client_random}1.in prove {client._client_random} 1').split())
+            subprocess.run((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.HTTP3_String run ./files/params.txt {client._allowed_url} {client._client_random} 1').split())
+            subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/HTTP3_String.arith files/HTTP3_String_{client._client_random}1.in prove {client._client_random} 1').split())
 
             # FULL
             # subprocess.run((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_full run ./files/params.txt {client._allowed_url} {client._client_random} 1 300 100').split())
             # subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/Test_HTTP3_String_full.arith files/Test_HTTP3_String_full_{client._client_random}1.in prove {client._client_random} 1').split())
             
             # POL
-            subprocess.run((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_POL run ./files/params.txt {client._allowed_url} {client._client_random} 1 100').split())
-            subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/Test_HTTP3_String_POL.arith files/Test_HTTP3_String_POL_{client._client_random}1.in prove {client._client_random} 1').split())
+            # subprocess.run((f'java -cp ../xjsnark_decompiled/backend_bin_mod/:../xjsnark_decompiled/xjsnark_bin/ xjsnark.PolicyCheck.Test_HTTP3_String_POL run ./files/params.txt {client._allowed_url} {client._client_random} 1 100').split())
+            # subprocess.run((f'../libsnark/build/libsnark/jsnark_interface/run_zkmb files/Test_HTTP3_String_POL.arith files/Test_HTTP3_String_POL_{client._client_random}1.in prove {client._client_random} 1').split())
 
         # perché non si contano i tempi anche nella send della proof?
         outputs, memory = send_generated_proof(client._client_random, start_time, outputs, memory)

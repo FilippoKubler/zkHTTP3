@@ -9,16 +9,20 @@
 ```
 
 - Run the ```setup``` script to initialize the project
-
+```bash
+cd ./zkHTTP3 && ./setup
+```
+The script executes these steps:
 > - Install all the Requirements
 > ```bash
-> sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3
+> sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3 tshark openjdk-17-jre-headless
 > ```
-> > libprocps-dev cannot be installed in Ubuntu 24.04
+> libprocps-dev cannot be installed in Ubuntu 24.04
 
 > - Install python libraries for aioquic
 > ```bash
-> pip install aioquic uvloop wsproto requests
+> pip install aioquic uvloop wsproto requests pyshark pycryptodome psutil flask
+> python3 -m Cryptodome.SelfTest
 > ```
 
 > > **If building on Ubuntu >20.04** you must set GCC-9 and G++-9 as default versions:
@@ -37,23 +41,53 @@
 > ```bash
 > cmake <flags> ..
 > ```
-> > Tested flags: ```-DMULTICORE=ON``` and ```-DUSE_PT_COMPRESSION=OFF```
+> Tested flags: ```-DMULTICORE=ON``` and ```-DUSE_PT_COMPRESSION=OFF```
 > then 
 > ```bash
 > make
 > ```
 
-- Locate where the python libraries are installed (```/usr/local/lib/python3.10/dist-packages/```) and substitute the aioquic folder
-```bash
-rm -rf aioquic
-git clone https://github.com/FilippoKubler/aioquic.git
-```
+> - Generate the certificates for the Client and Server
+> ```bash
+> openssl req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 -keyout ca.key -out ca.pem -subj "/O=http3-client Certificate Authority/"
+> openssl req -out cert.csr -new -newkey rsa:2048 -nodes -keyout priv.key -subj "/O=http3-client/"
+> openssl x509 -req -sha256 -days 3650 -in cert.csr  -out cert.pem -CA ca.pem -CAkey ca.key -CAcreateserial -extfile <(printf "subjectAltName=DNS:127.0.0.1")
+> ```
+
+> - Locate where the python libraries are installed (usually ```/usr/local/lib/python3.10/dist-packages/```) and substitute the aioquic folder
+> ```bash
+> rm -rf aioquic
+> git clone https://github.com/FilippoKubler/aioquic.git
+> ```
 
 
 # Run a Test
 
+Open 4 cli shells:
 
+- Move to ```https-client``` folder and run the following command
+```bash
+cd ./http3-client
+python http3-client.py --ca-certs "certs/ca.pem" --cipher-suites "AES_128_GCM_SHA256" -l "keys" -q "quic-log" -v -i -k -d HTTP3 https://127.0.0.1:4433/function/figlet
+```
 
+- Move to ```middlebox``` folder and run the following command
+```bash
+cd ./middlebox
+python middlebox.py
+```
+
+- Move to ```middlebox``` folder and run the following command
+```bash
+cd ./middlebox
+python capture.py
+```
+
+- Move to ```https-server``` folder and run the following command
+```bash
+cd ./http3-server
+python3 http3-server.py -v -c certs/cert.pem -k certs/priv.key -q quic-log -l keys
+```
 
 
 # Use MPS IDE

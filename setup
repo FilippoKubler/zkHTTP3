@@ -1,13 +1,22 @@
 # INITIAL SETUP #
 
-sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3
+prinf "Install the basic Requirements:\n"
+
+sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3 tshark openjdk-17-jre-headless
+printf "\n"
+pip install aioquic uvloop wsproto requests pyshark pycryptodome psutil flask
+python3 -m Cryptodome.SelfTest
 printf "\n\n"
-pip install aioquic uvloop wsproto requests
-printf "\n\n"
+
+
+printf "Set GCC-9 and G++-9:\n"
 
 sudo ln -s -f /usr/bin/gcc-9 /usr/bin/gcc
 sudo ln -s -f /usr/bin/g++-9 /usr/bin/g++
 printf "\n\n"
+
+
+printf "Setup libsnark:\n"
 
 cd ./libsnark
 mkdir build
@@ -21,27 +30,32 @@ cd ~/zkHTTP3
 printf "\n\n"
 
 
+
 # CLIENT #
 
 cd ./http3-client
 
+mkdir files
 mkdir quic-log
 mkdir certs 
 cd certs
 
-echo "Generating CA key and certificate:"
+printf "Generating CA key and certificate:\n"
 openssl req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 \
   -keyout ca.key -out ca.pem \
   -subj "/O=http3-client Certificate Authority/"
+printf "\n"
 
-echo "Generating CSR"
+printf "Generating CSR:\n"
 openssl req -out cert.csr -new -newkey rsa:2048 -nodes -keyout priv.key \
   -subj "/O=http3-client/"
+printf "\n"
 
-echo "Sign certificate:"
+printf "Sign certificate:\n"
 openssl x509 -req -sha256 -days 3650 -in cert.csr  -out cert.pem \
   -CA ca.pem -CAkey ca.key -CAcreateserial \
   -extfile <(printf "subjectAltName=DNS:127.0.0.1")
+printf "\n"
 
 # debug output the certificate
 openssl x509 -noout -text -in cert.pem
@@ -61,25 +75,53 @@ mkdir quic-log
 mkdir certs 
 cd certs
 
-echo "Generating CA key and certificate:"
+printf "Generating CA key and certificate:\n"
 openssl req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 \
   -keyout ca.key -out ca.pem \
   -subj "/O=http3-server Certificate Authority/"
+printf "\n"
 
-echo "Generating CSR"
+printf "Generating CSR:\n"
 openssl req -out cert.csr -new -newkey rsa:2048 -nodes -keyout priv.key \
   -subj "/O=http3-server/"
+printf "\n"
 
-echo "Sign certificate:"
+printf "Sign certificate:\n"
 openssl x509 -req -sha256 -days 3650 -in cert.csr  -out cert.pem \
   -CA ca.pem -CAkey ca.key -CAcreateserial \
   -extfile <(printf "subjectAltName=IP:127.0.0.1")
+printf "\n"
 
 # debug output the certificate
 openssl x509 -noout -text -in cert.pem
 
 # we don't need the CA key, the serial number and the CSR any more
 rm ca.key cert.csr
+
+cd ~/zkHTTP3
+printf "\n\n"
+
+
+# MIDDLEBOX #
+
+cd ./middlebox
+
+mkdir files
+
+cd ~/zkHTTP3
+printf "\n\n"
+
+
+
+# AIOQUIC #
+
+printf "Substitute the aioquic library:\n"
+
+cd /usr/local/lib/python3.10/dist-packages/
+printf "\n\n"
+
+rm -rf aioquic
+git clone https://github.com/FilippoKubler/aioquic.git
 
 cd ~/zkHTTP3
 printf "\n\n"

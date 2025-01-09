@@ -3,7 +3,7 @@ from datetime import datetime
 import sys, copy, pyshark, threading, binascii, hashlib, json, logging
 from aioquic.tls import CipherSuite, cipher_suite_hash, hkdf_expand_label, hkdf_extract
 from aioquic.quic.quic_datagram_decomposer import quic_length_decoder, quic_datagram_decomposer_capture
-from Crypto.Cipher import AES
+from Cryptodome.Cipher import AES
 
 INITIAL_SALT_VERSION_1  = binascii.unhexlify("38762cf7f55934b34d179ae6a4c80cadccbb7f0a")
 INITIAL_CIPHER_SUITE    = CipherSuite.AES_128_GCM_SHA256

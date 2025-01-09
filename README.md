@@ -21,7 +21,7 @@ The script executes these steps:
 
 > - Install python libraries for aioquic
 > ```bash
-> pip install aioquic uvloop wsproto requests pyshark pycryptodome psutil flask
+> pip install uvloop wsproto requests pyshark pycryptodome psutil flask
 > python3 -m Cryptodome.SelfTest
 > ```
 

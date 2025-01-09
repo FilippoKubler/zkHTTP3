@@ -1,0 +1,85 @@
+# INITIAL SETUP #
+
+sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3
+printf "\n\n"
+pip install aioquic uvloop wsproto requests
+printf "\n\n"
+
+sudo ln -s -f /usr/bin/gcc-9 /usr/bin/gcc
+sudo ln -s -f /usr/bin/g++-9 /usr/bin/g++
+printf "\n\n"
+
+cd ./libsnark
+mkdir build
+cd build
+printf "\n\n"
+cmake -DMULTICORE=ON -DUSE_PT_COMPRESSION=OFF ..
+printf "\n\n"
+make
+
+cd ~/zkHTTP3
+printf "\n\n"
+
+
+# CLIENT #
+
+cd ./http3-client
+
+mkdir quic-log
+mkdir certs 
+cd certs
+
+echo "Generating CA key and certificate:"
+openssl req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 \
+  -keyout ca.key -out ca.pem \
+  -subj "/O=http3-client Certificate Authority/"
+
+echo "Generating CSR"
+openssl req -out cert.csr -new -newkey rsa:2048 -nodes -keyout priv.key \
+  -subj "/O=http3-client/"
+
+echo "Sign certificate:"
+openssl x509 -req -sha256 -days 3650 -in cert.csr  -out cert.pem \
+  -CA ca.pem -CAkey ca.key -CAcreateserial \
+  -extfile <(printf "subjectAltName=DNS:127.0.0.1")
+
+# debug output the certificate
+openssl x509 -noout -text -in cert.pem
+
+# we don't need the CA key, the serial number and the CSR any more
+rm ca.key cert.csr
+
+cd ~/zkHTTP3
+printf "\n\n"
+
+
+# SERVER #
+
+cd ./http3-server
+
+mkdir quic-log
+mkdir certs 
+cd certs
+
+echo "Generating CA key and certificate:"
+openssl req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 \
+  -keyout ca.key -out ca.pem \
+  -subj "/O=http3-server Certificate Authority/"
+
+echo "Generating CSR"
+openssl req -out cert.csr -new -newkey rsa:2048 -nodes -keyout priv.key \
+  -subj "/O=http3-server/"
+
+echo "Sign certificate:"
+openssl x509 -req -sha256 -days 3650 -in cert.csr  -out cert.pem \
+  -CA ca.pem -CAkey ca.key -CAcreateserial \
+  -extfile <(printf "subjectAltName=IP:127.0.0.1")
+
+# debug output the certificate
+openssl x509 -noout -text -in cert.pem
+
+# we don't need the CA key, the serial number and the CSR any more
+rm ca.key cert.csr
+
+cd ~/zkHTTP3
+printf "\n\n"

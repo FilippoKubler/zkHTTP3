@@ -7,32 +7,54 @@
 ```bash
   git clone git@github.com:FilippoKubler/zkHTTP3.git
 ```
-- Make sure that libsnark requisite packages are installed:
-```bash
-sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config
-# libprocps-dev cannot be installed in Ubuntu 24.04
-```
-> **If building on Ubuntu >20.04** you must set GCC-9 and G++-9 as default versions:
+
+- Run the ```setup``` script to initialize the project
+
+> - Install all the Requirements
 > ```bash
-> sudo ln -s -f /usr/bin/gcc-9 /usr/bin/gcc
-> sudo ln -s -f /usr/bin/g++-9 /usr/bin/g++
+> sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3
 > ```
-> After building, you can revert this change by linking back the previous default GCC and G++ versions.
+> > libprocps-dev cannot be installed in Ubuntu 24.04
 
-- Move to libsnark directory and create the build folder 
+> - Install python libraries for aioquic
+> ```bash
+> pip install aioquic uvloop wsproto requests
+> ```
+
+> > **If building on Ubuntu >20.04** you must set GCC-9 and G++-9 as default versions:
+> > ```bash
+> > sudo ln -s -f /usr/bin/gcc-9 /usr/bin/gcc
+> > sudo ln -s -f /usr/bin/g++-9 /usr/bin/g++
+> > ```
+> > After building, you can revert this change by linking back the previous default GCC and G++ versions.
+
+> - Move to libsnark directory and create the build folder 
+> ```bash
+> cd libsnark && mkdir build && cd build
+> ```
+
+> - Compile libsnark with the preferred compilation flags
+> ```bash
+> cmake <flags> ..
+> ```
+> > Tested flags: ```-DMULTICORE=ON``` and ```-DUSE_PT_COMPRESSION=OFF```
+> then 
+> ```bash
+> make
+> ```
+
+- Locate where the python libraries are installed (```/usr/local/lib/python3.10/dist-packages/```) and substitute the aioquic folder
 ```bash
-cd libsnark && mkdir build && cd build
+rm -rf aioquic
+git clone https://github.com/FilippoKubler/aioquic.git
 ```
 
-- Compile libsnark with the preferred compilation flags
-```bash
-cmake <flags> ..
-# Tested flags: ```-DMULTICORE=ON``` and ```-DUSE_PT_COMPRESSION=OFF```
-```
-then 
-```bash
-make
-```
+
+# Run a Test
+
+
+
+
 
 # Use MPS IDE
 - Install [MPS 3.3.5](https://www.jetbrains.com/mps/download/previous.html)
@@ -47,7 +69,7 @@ make
 - To edit policies, open the xjsnark.sandbox section on the left sidebar, under "PolicyCheck" you find the three String / Merkle / Merkle Token policies for HTTP traffic
 - To compile the policies, right click on either the whole xjsnark.sandbox or the single PolicyCheck module and select "Make Model" or "Make Solution". The generated java files should be in the "MPS Generated Code" folder.
 
-- Compile Policies into java code
+- Compile Policies into java code after some modification
 ```bash
 cd ../xjsnark_decompiled/ && javac -d xjsnark_bin/ -cp backend_bin_mod:xjsnark_bin/ xjsnark_src/xjsnark/*/*.java
 ```

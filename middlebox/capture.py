@@ -1,6 +1,10 @@
 # ------------------------------------------------------------
+import sys, copy, pyshark, threading, binascii, hashlib, json, logging, os
 from datetime import datetime
-import sys, copy, pyshark, threading, binascii, hashlib, json, logging
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
 from aioquic.tls import CipherSuite, cipher_suite_hash, hkdf_expand_label, hkdf_extract
 from aioquic.quic.quic_datagram_decomposer import quic_length_decoder, quic_datagram_decomposer_capture
 from Cryptodome.Cipher import AES

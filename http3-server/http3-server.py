@@ -1,9 +1,8 @@
-import argparse
-import asyncio
-import importlib
-import logging
-import time
-import requests
+import argparse, asyncio, importlib, logging, time, requests, os, sys
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
 from collections import deque
 from email.utils import formatdate
 from typing import Callable, Deque, Dict, List, Optional, Union, cast

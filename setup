@@ -110,18 +110,3 @@ mkdir files
 
 cd ~/zkHTTP3
 printf "\n\n"
-
-
-
-# AIOQUIC #
-
-printf "Substitute the aioquic library:\n"
-
-cd /usr/local/lib/python3.10/dist-packages/
-printf "\n\n"
-
-rm -rf aioquic
-git clone https://github.com/FilippoKubler/aioquic.git
-
-cd ~/zkHTTP3
-printf "\n\n"

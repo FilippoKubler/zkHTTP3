@@ -54,12 +54,6 @@ The script executes these steps:
 > openssl x509 -req -sha256 -days 3650 -in cert.csr  -out cert.pem -CA ca.pem -CAkey ca.key -CAcreateserial -extfile <(printf "subjectAltName=DNS:127.0.0.1")
 > ```
 
-> - Locate where the python libraries are installed (usually ```/usr/local/lib/python3.10/dist-packages/```) and substitute the aioquic folder
-> ```bash
-> rm -rf aioquic
-> git clone https://github.com/FilippoKubler/aioquic.git
-> ```
-
 
 # Run the project
 

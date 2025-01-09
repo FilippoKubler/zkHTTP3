@@ -15,7 +15,7 @@ cd ./zkHTTP3 && ./setup
 The script executes these steps:
 > - Install all the Requirements
 > ```bash
-> sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3 tshark openjdk-17-jre-headless
+> sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3 tshark openjdk-17-jre-headless apt install openjdk-17-jdk-headless
 > ```
 > libprocps-dev cannot be installed in Ubuntu 24.04
 
@@ -61,9 +61,9 @@ The script executes these steps:
 > ```
 
 
-# Run a Test
+# Run the project
 
-Open 4 cli shells:
+#### Open 4 cli shells:
 
 - Move to ```https-client``` folder and run the following command
 ```bash
@@ -89,6 +89,43 @@ cd ./http3-server
 python3 http3-server.py -v -c certs/cert.pem -k certs/priv.key -q quic-log -l keys
 ```
 
+
+# Execute Tests
+
+#### Live Test:
+
+- Move to ```https-client``` folder and run the following command
+```bash
+cd ./http3-client
+python http3-client.py --ca-certs "certs/ca.pem" --cipher-suites "AES_128_GCM_SHA256" -l "keys" -q "quic-log" -t -r 1 -v -i -k -d HTTP3 https://127.0.0.1:4433/function/figlet
+```
+
+- Move to ```middlebox``` folder and run the following command
+```bash
+cd ./middlebox
+python middlebox.py -t -r 1
+```
+
+- Move to ```middlebox``` folder and run the following command
+```bash
+cd ./middlebox
+python capture.py
+```
+
+- Move to ```https-server``` folder and run the following command
+```bash
+cd ./http3-server
+python3 http3-server.py -v -c certs/cert.pem -k certs/priv.key -q quic-log -l keys
+```
+
+
+#### Signle Function Tests:
+
+- Move to ```middlebox``` folder and run the following command
+```bash
+cd ./middlebox
+python trackers.py
+```
 
 # Use MPS IDE
 - Install [MPS 3.3.5](https://www.jetbrains.com/mps/download/previous.html)

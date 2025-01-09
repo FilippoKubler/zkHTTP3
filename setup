@@ -2,7 +2,7 @@
 
 prinf "Install the basic Requirements:\n"
 
-sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3 tshark openjdk-17-jre-headless
+sudo apt install build-essential gcc-9 g++-9 cmake git libgmp3-dev libprocps-dev python3-markdown libboost-program-options-dev libssl-dev python3 pkg-config python3-pip python-is-python3 tshark openjdk-17-jre-headless openjdk-17-jdk-headless
 printf "\n"
 pip install aioquic uvloop wsproto requests pyshark pycryptodome psutil flask
 python3 -m Cryptodome.SelfTest
@@ -15,7 +15,6 @@ sudo ln -s -f /usr/bin/gcc-9 /usr/bin/gcc
 sudo ln -s -f /usr/bin/g++-9 /usr/bin/g++
 printf "\n\n"
 
-
 printf "Setup libsnark:\n"
 
 cd ./libsnark
@@ -27,6 +26,7 @@ printf "\n\n"
 make
 
 cd ~/zkHTTP3
+mkdir Tests
 printf "\n\n"
 
 
